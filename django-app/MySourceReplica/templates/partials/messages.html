@@ -1,0 +1,26 @@
+{% if messages %}
+  {% for msg in messages %}
+    <div class="notification is-{{ msg.tags }}" style="margin: 1rem auto; max-width: 620px; text-align: center; font-weight: 500; border-radius: 6px;">
+      <button class="delete"></button>
+      {{ msg }}
+    </div>
+  {% endfor %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // close when X is clicked
+      document.querySelectorAll('.notification .delete').forEach(btn => {
+        btn.addEventListener('click', () => btn.parentNode.remove());
+      });
+
+      // auto-remove after a short wait
+      setTimeout(() => {
+        document.querySelectorAll('.notification').forEach(note => {
+          note.style.transition = 'opacity 0.4s ease';
+          note.style.opacity = 0;
+          setTimeout(() => note.remove(), 400);
+        });
+      }, 3500);
+    });
+  </script>
+{% endif %}

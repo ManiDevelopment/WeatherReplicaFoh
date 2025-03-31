@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>{% block title %}My Weather Report{% endblock %}</title> 
+
+  <!-- Bulma CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"> 
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+  <!-- Top bar with Surrey logo -->
+  <section style="background-color: rgb(0,70,130); padding: 0.75rem 1.25rem;">
+    <img src="/media/surrey-logo.svg" width="144" height="44" alt="Surrey Logo">
+  </section>
+
+  <!-- Page title -->
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title" style="font-weight: 500;">
+          My Weather Report
+          <span id="welcome">(Unknown User)</span>
+        </h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Greeting filler -->
+  <script>
+    const welcomeText = document.getElementById("welcome");
+    if (welcomeText) welcomeText.textContent = " (Welcome User!)";
+  </script>
+
+  <!-- Scrolling ticker -->
+  <section class="hero is-info">
+    <marquee behavior="scroll" direction="left">
+      <span id="guildford-ticker">Loading Guildford weather...</span>
+    </marquee>
+  </section>
+
+  <!-- Content injected from child templates -->
+  {% block content %}{% endblock %}
+
+  <hr style="border-top: 2px solid #000; margin-bottom: 0;">
+
+  <!-- Footer with credit -->
+  <footer class="footer has-background-info-light" style="padding: 20px 0 25px;">
+    <div class="container">
+      <div class="level">
+        <div class="level-left">
+          <span class="level-item">
+            Styled by &nbsp;
+            <img src="https://bulma.io/assets/brand/Bulma%20Logo.png" alt="Bulma Logo" width="60">
+          </span>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <div class="content has-text-centered has-text-white-invert">©2025 Mani Satnam</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  {% block extra_js %}
+  <script src="{% static 'marquee.js' %}"></script>
+  {% endblock %}
+</body>
+</html>

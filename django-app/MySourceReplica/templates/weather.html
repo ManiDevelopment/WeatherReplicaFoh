@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Form to add a city -->
+<section class="section" style="background: url('/media/metofficegovuk_heroXLarge.jpeg') no-repeat center center; background-size: cover;">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <form id="addCityForm" method="post">
+          {% csrf_token %}
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input type="text" name="name" class="input" placeholder="Add a new city..." required>
+            </div>
+            <div class="control">
+              <button class="button is-info" type="submit">Add City</button>
+            </div>
+          </div>
+        </form>
+        <!-- ✅ Flash messages below input -->
+        <div id="formMsg" class="mt-4"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- List of city weather cards -->
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div id="weatherCards" class="column is-half">
+        {% for city in cities %}
+          <div class="box weather-card" data-pk="{{ city.id }}">
+            <article class="media">
+              <div class="media-left">
+                <figure class="image is-64x64">
+                  <img src="/media/none.png" alt="Weather Icon">
+                </figure>
+              </div>
+              <div class="media-content">
+                <div class="content">
+                  <p>
+                    <strong class="title">{{ city.name }}</strong><br>
+                    <span class="subtitle" id="deg-{{ city.id }}">[--]&deg; C</span><br>
+                    <span id="summary-{{ city.id }}">Loading weather...</span>
+                  </p>
+                </div>
+              </div>
+              <div class="media-right">
+                <button class="delete" data-remove="{{ city.id }}"></button>
+              </div>
+            </article>
+          </div>
+        {% empty %}
+          <p class="has-text-centered">There aren't any cities yet. Add one!</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+  {{ block.super }}
+  <script src="{% static 'weather.js' %}"></script>
+{% endblock %}
